@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,7 +19,7 @@ public class OrderService {
         String uuid = UUID.randomUUID().toString().replace("-", "").toUpperCase(); // 대문자, 하이픈 제거
         return uuid.substring(0, 12); // 12자리의 고유한 orderId
     }
-
+    @Transactional
     public Order saveOrder(Order order) {
         order.setOrderId(generateOrderId());
         return orderRepository.save(order);

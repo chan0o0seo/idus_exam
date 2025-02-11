@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -26,6 +27,8 @@ public class UserService {
     private final OrderRepository orderRepository;
     private final PasswordEncoder passwordEncoder;
 
+
+    @Transactional
     public User save(User user) {
 
         // 유효성 검사
@@ -46,35 +49,36 @@ public class UserService {
         user.setPassword(encodedPassword);
         return userRepository.save(user);
     }
+    @Transactional (readOnly = true)
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
-
+    @Transactional (readOnly = true)
     public Page<Order> findAll(int page, int size) {
         Pageable pageable = PageRequest.of(page,size);
 
         return orderRepository.findTopByUserEmailOrderByOrderTimeDesc(getAllUserEmails(),pageable);
     }
-
+    @Transactional(readOnly = true)
     public Page<Order> findByName(String name,int page,int size) {
         Pageable pageable = PageRequest.of(page,size);
         return orderRepository.findTopByUserEmailOrderByOrderTimeDesc(getAllUserEmailsByName(name),pageable);
     }
-
+    @Transactional(readOnly = true)
     public Page<Order> findByEmail(String email,int page,int size) {
         Pageable pageable = PageRequest.of(page,size);
         return orderRepository.findTopByUserEmailOrderByOrderTimeDesc(getAllUserEmailsByEmail(email),pageable);
     }
-
-    private List<String> getAllUserEmails() {
+    @Transactional(readOnly = true)
+    public List<String> getAllUserEmails() {
         return userRepository.findAllEmails();  // 예시
     }
-
-    private List<String> getAllUserEmailsByName(String name) {
+    @Transactional(readOnly = true)
+    public List<String> getAllUserEmailsByName(String name) {
         return  userRepository.findByNameContaining(name);
     }
-
-    private List<String> getAllUserEmailsByEmail(String email) {
+    @Transactional(readOnly = true)
+   public List<String> getAllUserEmailsByEmail(String email) {
         return  userRepository.findByEmailContaining(email);
     }
 }
