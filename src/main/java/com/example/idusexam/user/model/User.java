@@ -34,5 +34,5 @@ public class User {
     @Column(nullable = false, length = 100)
     private String email;
 
-    private boolean sex;
+    private Boolean gender;
 }
