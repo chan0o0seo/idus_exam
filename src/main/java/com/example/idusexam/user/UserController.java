@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@RequestMapping("/idus")
+@RequestMapping("/user")
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "User API", description = "유저 관련 API")

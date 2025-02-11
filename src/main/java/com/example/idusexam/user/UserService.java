@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.OptionalInt;
 
 @Service
 @RequiredArgsConstructor
@@ -41,5 +42,9 @@ public class UserService {
     public Page<User> findByEmail(String email,int page,int size) {
         Pageable pageable = PageRequest.of(page,size);
         return userRepository.findByEmailContaining(email,pageable);
+    }
+
+    public Optional<User> getLastOrderForUser(String email) {
+        return userRepository.findTopByUserEmailOrderByOrderTimeDesc(email);
     }
 }

@@ -24,4 +24,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("Select u FROM User u WHERE u.email like %:email%")
     public Page<User> findByEmailContaining(String email, Pageable pageable);
 
+    public Optional<User> findTopByUserEmailOrderByOrderTimeDesc(String email);
+
+
 }
