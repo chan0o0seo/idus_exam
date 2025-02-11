@@ -1,12 +1,14 @@
 package com.example.idusexam.user.model;
 
 import com.example.idusexam.order.model.Order;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 public class UserDto {
 
     @Getter
+    @Schema(description = "회원가입할 때 양식 저장하는 Dto")
     public static class SignUpDto {
         private final String name;
         private final String nickname;
@@ -35,6 +37,7 @@ public class UserDto {
 
     @Getter
     @RequiredArgsConstructor
+    @Schema(description = "로그인할 때 양식 저장하는 Dto")
     public static class LoginDto {
         private final String email;
         private final String password;
