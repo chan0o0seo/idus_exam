@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class OrderService {
@@ -15,5 +16,15 @@ public class OrderService {
     public Page<Order> getLatestOrdersForAllUsers(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return orderRepository.findLatestOrdersForAllUsers(pageable); // 모든 사용자의 최신 주문 가져오기
+    }
+
+    public String generateOrderId() {
+        String uuid = UUID.randomUUID().toString().replace("-", "").toUpperCase(); // 대문자, 하이픈 제거
+        return uuid.substring(0, 12); // 12자리의 고유한 orderId
+    }
+
+    public Order saveOrder(Order order) {
+        order.setOrderId(generateOrderId());
+        return orderRepository.save(order);
     }
 }

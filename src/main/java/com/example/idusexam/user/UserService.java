@@ -2,6 +2,10 @@ package com.example.idusexam.user;
 
 
 import com.example.idusexam.user.model.User;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.OptionalInt;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +25,24 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public User save(User user) {
+
+        // 유효성 검사
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+
+        // 유효성 검사 실패 시 예외 처리
+        if (!violations.isEmpty()) {
+            for (ConstraintViolation<User> violation : violations) {
+                System.out.println(violation.getMessage());
+            }
+            throw new IllegalArgumentException("유효하지 않은 입력이 있습니다.");
+        }
+
+
+
+
+
         // password encode
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
@@ -45,6 +68,6 @@ public class UserService {
     }
 
     public Optional<User> getLastOrderForUser(String email) {
-        return userRepository.findTopByUserEmailOrderByOrderTimeDesc(email);
+        return userRepository.findTopOrderByUserEmail(email);
     }
 }
