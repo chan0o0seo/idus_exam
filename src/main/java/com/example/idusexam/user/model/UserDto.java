@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 public class UserDto {
 
     @Getter
-    public static class signUpDto {
+    public static class SignUpDto {
         private final String name;
         private final String nickname;
         private final String password;
@@ -14,7 +14,7 @@ public class UserDto {
         private final String email;
         private Boolean gender;
 
-        public signUpDto(String name, String nickname, String password, String phone, String email, Boolean gender) {
+        public SignUpDto(String name, String nickname, String password, String phone, String email, Boolean gender) {
             this.name = name;
             this.nickname = nickname;
             this.password = password;
@@ -22,7 +22,7 @@ public class UserDto {
             this.email = email;
             this.gender = gender;
         }
-        public signUpDto(String name, String nickname, String password, String phone, String email) {
+        public SignUpDto(String name, String nickname, String password, String phone, String email) {
             this.name = name;
             this.nickname = nickname;
             this.password = password;
@@ -30,5 +30,12 @@ public class UserDto {
             this.email = email;
             this.gender = null;
         }
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class LoginDto {
+        private final String email;
+        private final String password;
     }
 }
