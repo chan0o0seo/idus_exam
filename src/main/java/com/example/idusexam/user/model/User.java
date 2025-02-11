@@ -2,10 +2,7 @@ package com.example.idusexam.user.model;
 
 
 import com.example.idusexam.order.model.Order;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,6 +37,6 @@ public class User {
 
     private Boolean gender;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user" , fetch = FetchType.EAGER)
     private List<Order> orders;
 }
