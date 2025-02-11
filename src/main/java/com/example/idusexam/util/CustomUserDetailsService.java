@@ -3,6 +3,7 @@ package com.example.idusexam.util;
 
 import com.example.idusexam.user.UserRepository;
 import com.example.idusexam.user.model.User;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
