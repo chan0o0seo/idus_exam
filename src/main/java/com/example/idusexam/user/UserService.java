@@ -3,6 +3,9 @@ package com.example.idusexam.user;
 
 import com.example.idusexam.user.model.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,5 +26,20 @@ public class UserService {
     }
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public Page<User> findAll(int page,int size) {
+        Pageable pageable = PageRequest.of(1,5);
+        return userRepository.findAll(pageable);
+    }
+
+    public Page<User> findByName(String name,int page,int size) {
+        Pageable pageable = PageRequest.of(page,size);
+        return userRepository.findByNameContaining(name,pageable);
+    }
+
+    public Page<User> findByEmail(String email,int page,int size) {
+        Pageable pageable = PageRequest.of(page,size);
+        return userRepository.findByEmailContaining(email,pageable);
     }
 }
