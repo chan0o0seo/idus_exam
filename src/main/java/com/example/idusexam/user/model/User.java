@@ -1,14 +1,18 @@
 package com.example.idusexam.user.model;
 
 
+import com.example.idusexam.order.model.Order;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -35,4 +39,7 @@ public class User {
     private String email;
 
     private Boolean gender;
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
 }
