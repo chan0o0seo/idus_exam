@@ -1,5 +1,6 @@
 package com.example.idusexam.user.model;
 
+import com.example.idusexam.order.model.Order;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -38,4 +39,5 @@ public class UserDto {
         private final String email;
         private final String password;
     }
+
 }

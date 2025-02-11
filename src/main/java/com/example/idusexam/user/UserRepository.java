@@ -9,22 +9,25 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    public Optional<User> findByEmail(String email);
+    Optional<User> findByEmail(String email);
 
 
-    public Page<User> findAll(Pageable pageable);
+    Page<User> findAll(Pageable pageable);
 
-    @Query("Select u FROM User u WHERE u.name like %:name%")
-    public Page<User> findByNameContaining(String name, Pageable pageable);
+    @Query("Select u.email FROM User u WHERE u.name like %:name%")
+    List<String> findByNameContaining(String name);
 
-    @Query("Select u FROM User u WHERE u.email like %:email%")
-    public Page<User> findByEmailContaining(String email, Pageable pageable);
+    @Query("Select u.email FROM User u WHERE u.email like %:email%")
+    List<String> findByEmailContaining(String email);
 
-    public Optional<User> findTopByUserEmailOrderByOrderTimeDesc(String email);
+    @Query("SELECT u.email from User u")
+    List<String> findAllEmails();
+
 
 
 }

@@ -103,25 +103,25 @@ public class UserController {
         return ResponseEntity.notFound().build();
     }
 
-    @Operation(summary = "여러 회원 목록 조회", description = "여러 회원의 목록을 페이지네이션으로 조회합니다")
+    @Operation(summary = "여러 회원 목록 조회", description = "여러 회원의 마지막 주문을 페이지네이션으로 조회합니다")
     @GetMapping("/findAllList")
-    public ResponseEntity<Page<User>> findAllList() {
-        Page<User> users = userService.findAll(pageNumber,pageSize);
-        return ResponseEntity.ok(users);
+    public ResponseEntity<Page<Order>> findAllList() {
+        Page<Order> orders = userService.findAll(pageNumber,pageSize);
+        return ResponseEntity.ok(orders);
     }
 
     @Operation(summary = "여러 회원 목록 조회 - 이름으로 검색", description = "검색한 이름과 일치하는 여러 회원의 목록을 페이지네이션으로 조회합니다")
     @GetMapping("/findListName")
-    public ResponseEntity<Page<User>> findListByName(String name) {
-        Page<User> users = userService.findByName(name,pageNumber,pageSize);
-        return ResponseEntity.ok(users);
+    public ResponseEntity<Page<Order>> findListByName(String name) {
+        Page<Order> orders = userService.findByName(name,pageNumber,pageSize);
+        return ResponseEntity.ok(orders);
     }
 
     @Operation(summary = "여러 회원 목록 조회 - 이메일로 검색", description = "검색한 이메일과 일치하는 여러 회원의 목록을 페이지네이션으로 조회합니다")
     @GetMapping("/findListEmail")
-    public ResponseEntity<Page<User>> findListByEmail(String email) {
-        Page<User> users = userService.findByEmail(email,pageNumber,pageSize);
-        return ResponseEntity.ok(users);
+    public ResponseEntity<Page<Order>> findListByEmail(String email) {
+        Page<Order> orders = userService.findByEmail(email,pageNumber,pageSize);
+        return ResponseEntity.ok(orders);
     }
 
 
