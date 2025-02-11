@@ -10,11 +10,12 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    @Query("SELECT o FROM Order o WHERE o.orderTime = (SELECT MAX(o2.orderTime) FROM Order o2 WHERE o2.user.email = o.user.email)")
-    Page<Order> findLatestOrdersForAllUsers(Pageable pageable);
+    @Query("SELECT o FROM Order o WHERE o.user.email IN :emails ORDER BY o.orderTime DESC")
+    Page<Order> findTopByUserEmailOrderByOrderTimeDesc(List<String> email, Pageable pageable);
 
 }

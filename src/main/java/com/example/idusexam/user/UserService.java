@@ -1,7 +1,10 @@
 package com.example.idusexam.user;
 
 
+import com.example.idusexam.order.OrderRepository;
+import com.example.idusexam.order.model.Order;
 import com.example.idusexam.user.model.User;
+import com.example.idusexam.user.model.UserDto;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -14,14 +17,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-import java.util.OptionalInt;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final OrderRepository orderRepository;
     private final PasswordEncoder passwordEncoder;
 
     public User save(User user) {
@@ -39,10 +41,6 @@ public class UserService {
             throw new IllegalArgumentException("유효하지 않은 입력이 있습니다.");
         }
 
-
-
-
-
         // password encode
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
@@ -52,22 +50,31 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public Page<User> findAll(int page,int size) {
-        Pageable pageable = PageRequest.of(1,5);
-        return userRepository.findAll(pageable);
-    }
-
-    public Page<User> findByName(String name,int page,int size) {
+    public Page<Order> findAll(int page, int size) {
         Pageable pageable = PageRequest.of(page,size);
-        return userRepository.findByNameContaining(name,pageable);
+
+        return orderRepository.findTopByUserEmailOrderByOrderTimeDesc(getAllUserEmails(),pageable);
     }
 
-    public Page<User> findByEmail(String email,int page,int size) {
+    public Page<Order> findByName(String name,int page,int size) {
         Pageable pageable = PageRequest.of(page,size);
-        return userRepository.findByEmailContaining(email,pageable);
+        return orderRepository.findTopByUserEmailOrderByOrderTimeDesc(getAllUserEmailsByName(name),pageable);
     }
 
-    public Optional<User> getLastOrderForUser(String email) {
-        return userRepository.findTopOrderByUserEmail(email);
+    public Page<Order> findByEmail(String email,int page,int size) {
+        Pageable pageable = PageRequest.of(page,size);
+        return orderRepository.findTopByUserEmailOrderByOrderTimeDesc(getAllUserEmailsByEmail(email),pageable);
+    }
+
+    private List<String> getAllUserEmails() {
+        return userRepository.findAllEmails();  // 예시
+    }
+
+    private List<String> getAllUserEmailsByName(String name) {
+        return  userRepository.findByNameContaining(name);
+    }
+
+    private List<String> getAllUserEmailsByEmail(String email) {
+        return  userRepository.findByEmailContaining(email);
     }
 }

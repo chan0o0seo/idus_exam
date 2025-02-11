@@ -13,10 +13,6 @@ import java.util.UUID;
 public class OrderService {
     private OrderRepository orderRepository;
 
-    public Page<Order> getLatestOrdersForAllUsers(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return orderRepository.findLatestOrdersForAllUsers(pageable); // 모든 사용자의 최신 주문 가져오기
-    }
 
     public String generateOrderId() {
         String uuid = UUID.randomUUID().toString().replace("-", "").toUpperCase(); // 대문자, 하이픈 제거
